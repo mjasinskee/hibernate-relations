@@ -4,6 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 class Author {
@@ -12,6 +17,8 @@ class Author {
     private Long id;
     private String firstName;
     private String lastName;
+    @ManyToMany(mappedBy = "authors")
+    Set<Book> books = new HashSet<>();
 
     public Author() {
     }
@@ -45,12 +52,17 @@ class Author {
         this.lastName = lastName;
     }
 
+    public void setBooks(Set<Book> books) {
+        this.books = books;
+    }
+
     @Override
     public String toString() {
         return "Author{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", authors=" + books.size() +
                 '}';
     }
 }

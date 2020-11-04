@@ -1,9 +1,15 @@
 package com.example.springtraining.springhibernate.library;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 class Book {
@@ -13,6 +19,8 @@ class Book {
     private Long id;
     private String ISBN;
     private String title;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    Set<Author> authors = new HashSet<>();
 
     public Book() {
     }
@@ -46,12 +54,17 @@ class Book {
         this.title = title;
     }
 
+    public void setAuthors(Set<Author> authors) {
+        this.authors = authors;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
                 "id=" + id +
                 ", ISBN='" + ISBN + '\'' +
                 ", title='" + title + '\'' +
+                ", authors=" + authors.size() +
                 '}';
     }
 }
