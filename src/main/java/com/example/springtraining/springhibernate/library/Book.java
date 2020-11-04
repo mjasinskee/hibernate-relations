@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 class Book {
@@ -13,13 +14,16 @@ class Book {
     private Long id;
     private String ISBN;
     private String title;
+    @OneToOne
+    private Author author;
 
     public Book() {
     }
 
-    public Book(String ISBN, String title) {
+    public Book(String ISBN, String title, Author author) {
         this.ISBN = ISBN;
         this.title = title;
+        this.author = author;
     }
 
     public Long getId() {
@@ -52,6 +56,7 @@ class Book {
                 "id=" + id +
                 ", ISBN='" + ISBN + '\'' +
                 ", title='" + title + '\'' +
+                ", author=" + author +
                 '}';
     }
 }
