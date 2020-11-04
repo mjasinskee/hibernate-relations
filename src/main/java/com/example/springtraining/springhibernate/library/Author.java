@@ -1,11 +1,13 @@
 package com.example.springtraining.springhibernate.library;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,16 +17,15 @@ class Author {
     private Long id;
     private String firstName;
     private String lastName;
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<Book> books;
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Book> books = new ArrayList<>();
 
     public Author() {
     }
 
-    public Author(String firstName, String lastName, List<Book> books) {
+    public Author(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.books = books;
     }
 
     public Long getId() {
@@ -51,13 +52,17 @@ class Author {
         this.lastName = lastName;
     }
 
+    public List<Book> getBooks() {
+        return books;
+    }
+
     @Override
     public String toString() {
         return "Author{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", books=" + books +
+                ", books=" + books.size() +
                 '}';
     }
 }
