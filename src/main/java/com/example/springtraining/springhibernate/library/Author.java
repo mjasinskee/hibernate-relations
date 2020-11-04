@@ -1,9 +1,12 @@
 package com.example.springtraining.springhibernate.library;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 @Entity
 class Author {
@@ -12,13 +15,16 @@ class Author {
     private Long id;
     private String firstName;
     private String lastName;
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Book> books;
 
     public Author() {
     }
 
-    public Author(String firstName, String lastName) {
+    public Author(String firstName, String lastName, List<Book> books) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.books = books;
     }
 
     public Long getId() {
@@ -51,6 +57,7 @@ class Author {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", books=" + books +
                 '}';
     }
 }
