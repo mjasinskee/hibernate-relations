@@ -1,9 +1,11 @@
 package com.example.springtraining.springhibernate.library;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 class Book {
@@ -13,6 +15,8 @@ class Book {
     private Long id;
     private String ISBN;
     private String title;
+    @OneToOne(fetch = FetchType.LAZY)
+    private Author author;
 
     public Book() {
     }
@@ -46,12 +50,17 @@ class Book {
         this.title = title;
     }
 
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
                 "id=" + id +
                 ", ISBN='" + ISBN + '\'' +
                 ", title='" + title + '\'' +
+                ", author=" + author +
                 '}';
     }
 }
