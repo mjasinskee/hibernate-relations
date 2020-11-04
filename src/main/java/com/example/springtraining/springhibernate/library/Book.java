@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 class Book {
@@ -13,14 +14,16 @@ class Book {
     private Long id;
     private String ISBN;
     private String title;
+    @ManyToOne
+    private Author author;
 
     public Book() {
     }
 
-    public Book(Long id, String ISBN, String title) {
-        this.id = id;
+    public Book(String ISBN, String title, Author author) {
         this.ISBN = ISBN;
         this.title = title;
+        this.author = author;
     }
 
     public Long getId() {
@@ -45,5 +48,15 @@ class Book {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", ISBN='" + ISBN + '\'' +
+                ", title='" + title + '\'' +
+                ", author=" + author +
+                '}';
     }
 }
