@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -46,5 +47,34 @@ class LibraryTest {
 
         assertThat(allBooks).isNotEmpty();
         assertThat(allAuthors).isNotEmpty();
+    }
+
+    @Test
+    public void shouldRemoveBookFromAuthorButNotFromDB() {
+        //given
+        Book book1 = bookRepository.save(new Book("ISBN1", "title1"));
+        Book book2 = bookRepository.save(new Book("ISBN2", "title2"));
+        Author author1 = authorRepository.save(new Author("name1", "lastName1"));
+        Author author2 = authorRepository.save(new Author("name2", "lastName2"));
+        Author author3 = authorRepository.save(new Author("name3", "lastName3"));
+        Author author4 = authorRepository.save(new Author("name4", "lastName4"));
+
+        book1.setAuthors(Stream.of(author1, author2).collect(Collectors.toSet()));
+        book2.setAuthors(Stream.of(author3, author4).collect(Collectors.toSet()));
+        bookRepository.save(book1);
+        bookRepository.save(book2);
+
+        //when
+        Optional<Book> book = bookRepository.findById(book1.getId());
+        book.ifPresent(b -> {
+            Author authorToRemove = b.authors.stream().filter(author -> author.getFirstName().equals("name1")).findFirst().get();
+            b.authors.remove(authorToRemove);
+            bookRepository.save(b);
+        });
+
+        //then
+        Optional<Book> savedBook = bookRepository.findById(book1.getId());
+        assertThat(savedBook.get().authors.size()).isEqualTo(1);
+        assertThat(authorRepository.findAll().size()).isEqualTo(4);
     }
 }
