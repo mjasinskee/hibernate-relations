@@ -7,9 +7,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -37,6 +39,12 @@ class LibraryTest {
         bookRepository.save(book2);
 
         //then
-        System.out.println("result: " + bookRepository.findAll());
+        List<Book> allBooks = bookRepository.findAll();
+        List<Author> allAuthors = authorRepository.findAll();
+        System.out.println("result: " + allBooks);
+        System.out.println("authors: " + allAuthors);
+
+        assertThat(allBooks).isNotEmpty();
+        assertThat(allAuthors).isNotEmpty();
     }
 }
