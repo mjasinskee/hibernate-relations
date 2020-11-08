@@ -1,5 +1,6 @@
 package com.example.springtraining.springhibernate.library;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +15,7 @@ class Book {
     private Long id;
     private String ISBN;
     private String title;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Author author;
 
     public Book() {
@@ -48,6 +49,14 @@ class Book {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 
     @Override
