@@ -54,6 +54,10 @@ class Author {
         this.book = book;
     }
 
+    public Book getBook() {
+        return book;
+    }
+
     @Override
     public String toString() {
         return "Author{" +
