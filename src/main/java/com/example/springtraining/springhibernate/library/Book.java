@@ -15,7 +15,7 @@ class Book {
     private Long id;
     private String ISBN;
     private String title;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Author author;
 
     public Book() {
