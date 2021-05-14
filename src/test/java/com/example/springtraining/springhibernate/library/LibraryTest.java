@@ -21,15 +21,15 @@ class LibraryTest {
     public void shouldSaveBooksAndAuthros() {
         //given
         Book book1 = new Book("ISBN1", "title1");
-        Book book2 = new Book("ISBN2", "title2");
+//        Book book2 = new Book("ISBN2", "title2");
 
         Author author1 = new Author("name1", "lastName1");
-        Author author2 = new Author("name2", "lastName2");
+//        Author author2 = new Author("name2", "lastName2");
 
         Book savedBook1 = bookRepository.save(book1);
-        Book savedBook2 = bookRepository.save(book2);
+//        Book savedBook2 = bookRepository.save(book2);
         Author savedAuthor1 = authorRepository.save(author1);
-        Author savedAuthor2 = authorRepository.save(author2);
+//        Author savedAuthor2 = authorRepository.save(author2);
 
         //when
 

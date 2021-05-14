@@ -64,7 +64,7 @@ class Author {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", book=" + book +
+                ", book=" + book.getId() +
                 '}';
     }
 }

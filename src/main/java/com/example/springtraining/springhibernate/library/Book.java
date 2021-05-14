@@ -60,7 +60,7 @@ class Book {
                 "id=" + id +
                 ", ISBN='" + ISBN + '\'' +
                 ", title='" + title + '\'' +
-                ", author=" + author +
+                ", author=" + author.getId() +
                 '}';
     }
 }
