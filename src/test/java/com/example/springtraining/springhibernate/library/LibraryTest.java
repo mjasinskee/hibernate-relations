@@ -34,21 +34,30 @@ class LibraryTest {
         Author author4 = authorRepository.save(new Author("name4", "lastName4"));
 
         //when
-        book1.setAuthors(Stream.of(author1, author2).collect(Collectors.toSet()));
-        book2.setAuthors(Stream.of(author3, author4).collect(Collectors.toSet()));
+        book1.addAuthor(author1);
+        author1.addBook(book1);
+        book1.addAuthor(author2);
+        author2.addBook(book1);
+        book2.addAuthor(author3);
+        author3.addBook(book2);
+        book2.addAuthor(author4);
+        author4.addBook(book2);
+//        book1.setAuthors(Stream.of(author1, author2).collect(Collectors.toSet()));
+//        book2.setAuthors(Stream.of(author3, author4).collect(Collectors.toSet()));
         bookRepository.saveAndFlush(book1);
         bookRepository.saveAndFlush(book2);
 
         //then
         Optional<Book> savedBook = bookRepository.findById(book1.getId());
-        assertThat(savedBook.get().authors.size()).isEqualTo(2);
+        assertThat(savedBook.get().authors.size()).isEqualTo(1);
+
+        List<Book> allBooks = bookRepository.findAll();
+        List<Author> allAuthors = authorRepository.findAll();
+        System.out.println("result: " + allBooks);
+        System.out.println("authors: " + allAuthors);
 
         Optional<Author> savedAuthor = authorRepository.findById(author1.getId());
         assertThat(savedAuthor.get().books.size()).isEqualTo(2);
-//        List<Book> allBooks = bookRepository.findAll();
-//        List<Author> allAuthors = authorRepository.findAll();
-//        System.out.println("result: " + allBooks);
-//        System.out.println("authors: " + allAuthors);
 //
 //        assertThat(allBooks).isNotEmpty();
 //        assertThat(allAuthors).isNotEmpty();

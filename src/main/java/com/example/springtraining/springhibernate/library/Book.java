@@ -72,4 +72,8 @@ class Book {
                 ", authors=" + authors.size() +
                 '}';
     }
+
+    public void addAuthor(Author author) {
+        authors.add(author);
+    }
 }

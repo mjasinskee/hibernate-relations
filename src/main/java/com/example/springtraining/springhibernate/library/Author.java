@@ -61,6 +61,11 @@ class Author {
         return books;
     }
 
+    public void addBook(Book book) {
+        books.add(book);
+        book.addAuthor(this);
+    }
+
     @Override
     public String toString() {
         return "Author{" +
