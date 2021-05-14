@@ -64,7 +64,7 @@ class LibraryTest {
         //then
         Optional<Book> saved = bookRepository.findById(6L);
         assertThat(saved.isPresent()).isTrue();
-        assertThat(saved.get().getAuthor().getFirstName().equalsIgnoreCase("anothername"));
+        assertThat(saved.get().getAuthor().getFirstName()).isEqualToIgnoringCase("anothername");
     }
 
     @Test
