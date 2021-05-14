@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -21,20 +22,16 @@ class LibraryTest {
     public void shouldSaveBooksAndAuthros() {
         //given
         Book book1 = new Book("ISBN1", "title1");
-//        Book book2 = new Book("ISBN2", "title2");
 
         Author author1 = new Author("name1", "lastName1");
-//        Author author2 = new Author("name2", "lastName2");
+        author1.setBook(book1);
 
-        Book savedBook1 = bookRepository.save(book1);
-//        Book savedBook2 = bookRepository.save(book2);
+//        Book savedBook1 = bookRepository.save(book1);
         Author savedAuthor1 = authorRepository.save(author1);
-//        Author savedAuthor2 = authorRepository.save(author2);
 
         //when
-
         Optional<Author> byId = authorRepository.findById(savedAuthor1.getId());
-        Optional<Book> byId1 = bookRepository.findById(savedBook1.getId());
+        Optional<Book> byId1 = bookRepository.findBookByTitle("title1");
         if (byId.isPresent() && byId1.isPresent()) {
             Author author = byId.get();
             Book book = byId1.get();
@@ -44,8 +41,8 @@ class LibraryTest {
         }
 
         //then
-        List<Author> all = authorRepository.findAll();
-        System.out.println("result author: " + all);
+        Optional<Author> author = authorRepository.findAuthorByFirstNameAndLastName("name1", "lastName1");
+        assertThat(author.get().getBook().getTitle()).isEqualToIgnoringCase("title1");
     }
 
 }

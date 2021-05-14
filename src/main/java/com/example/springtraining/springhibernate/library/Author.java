@@ -15,7 +15,7 @@ class Author {
     private Long id;
     private String firstName;
     private String lastName;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
     private Book book;
 
     public Author() {

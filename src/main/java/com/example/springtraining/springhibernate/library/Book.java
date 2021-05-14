@@ -15,7 +15,7 @@ class Book {
     private Long id;
     private String ISBN;
     private String title;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     private Author author;
 
     public Book() {
