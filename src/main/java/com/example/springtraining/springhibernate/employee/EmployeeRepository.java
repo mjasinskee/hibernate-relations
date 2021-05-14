@@ -20,6 +20,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     long countByDepartmentAndSalaryIsLessThan(Department department, BigDecimal salary);
     Set<Employee> findAllByDepartmentAndSalaryIsLessThan(Department department, BigDecimal salary);
 
+    @Query("select avg(e.salary) from Employee e where e.position = :position")
+    double calculateAverageSalaryOnPosition(@Param("position") String position);
+
     @Query("select e from Employee e where e.department = :department")
     Optional<Employee> searchByDepartment(@Param("department") Department department);
 }

@@ -14,14 +14,16 @@ class Employee {
     private Long id;
     private String name;
     private Department department;
+    private String position;
     private BigDecimal salary;
 
     public Employee() {
     }
 
-    public Employee(String name, Department department, BigDecimal salary) {
+    public Employee(String name, Department department, String position, BigDecimal salary) {
         this.name = name;
         this.department = department;
+        this.position = position;
         this.salary = salary;
     }
 
@@ -49,6 +51,14 @@ class Employee {
         this.department = department;
     }
 
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
     public BigDecimal getSalary() {
         return salary;
     }
@@ -62,7 +72,8 @@ class Employee {
         return "Employee{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", department='" + department + '\'' +
+                ", department=" + department +
+                ", position='" + position + '\'' +
                 ", salary=" + salary +
                 '}';
     }

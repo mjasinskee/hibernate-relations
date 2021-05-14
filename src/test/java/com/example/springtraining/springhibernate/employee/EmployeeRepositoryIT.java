@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 @SpringBootTest
@@ -15,11 +17,11 @@ class EmployeeRepositoryIT {
 
     @Test
     public void should() {
-        repository.save(new Employee("name1", Department.IT, BigDecimal.valueOf(11000)));
-        repository.save(new Employee("name2", Department.IT, BigDecimal.valueOf(12000)));
-        repository.save(new Employee("name3", Department.IT, BigDecimal.valueOf(13000)));
-        repository.save(new Employee("name4", Department.IT, BigDecimal.valueOf(14000)));
-        repository.save(new Employee("name4", Department.HR, BigDecimal.valueOf(15000)));
+        repository.save(new Employee("name1", Department.IT, "position 1", BigDecimal.valueOf(11000)));
+        repository.save(new Employee("name2", Department.IT, "position 1", BigDecimal.valueOf(12000)));
+        repository.save(new Employee("name3", Department.IT, "position 1", BigDecimal.valueOf(13000)));
+        repository.save(new Employee("name4", Department.IT, "position 2", BigDecimal.valueOf(14000)));
+        repository.save(new Employee("name4", Department.HR, "position 2", BigDecimal.valueOf(15000)));
 //        List<Employee> all = repository.findAll();
 //        all.stream().forEach(employee -> System.out.println(employee));
 //        Optional<Employee> name1 = repository.findEmployeeByName("name1");
@@ -32,5 +34,18 @@ class EmployeeRepositoryIT {
         System.out.println("count: " + repository.countByDepartmentAndSalaryIsLessThan(Department.IT, BigDecimal.valueOf(14000)));
         System.out.println("list: " + repository.findAllByDepartmentAndSalaryIsLessThan(Department.IT, BigDecimal.valueOf(14000)));
         System.out.println("result search: " + repository.searchByDepartment(Department.HR));
+        System.out.println("avg salary: " + repository.calculateAverageSalaryOnPosition("position 2"));
+    }
+
+    @Test
+    public void shouldMatchNumber() {
+        //given
+        Pattern pattern = Pattern.compile("\\+(\\d{2})(-\\d{3}){3}");
+
+        //when
+        Matcher matcher = pattern.matcher("+48-123-123-123");
+
+        //then
+        System.out.println(matcher.matches());
     }
 }
