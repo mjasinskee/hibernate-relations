@@ -36,17 +36,22 @@ class LibraryTest {
         //when
         book1.setAuthors(Stream.of(author1, author2).collect(Collectors.toSet()));
         book2.setAuthors(Stream.of(author3, author4).collect(Collectors.toSet()));
-        bookRepository.save(book1);
-        bookRepository.save(book2);
+        bookRepository.saveAndFlush(book1);
+        bookRepository.saveAndFlush(book2);
 
         //then
-        List<Book> allBooks = bookRepository.findAll();
-        List<Author> allAuthors = authorRepository.findAll();
-        System.out.println("result: " + allBooks);
-        System.out.println("authors: " + allAuthors);
+        Optional<Book> savedBook = bookRepository.findById(book1.getId());
+        assertThat(savedBook.get().authors.size()).isEqualTo(2);
 
-        assertThat(allBooks).isNotEmpty();
-        assertThat(allAuthors).isNotEmpty();
+        Optional<Author> savedAuthor = authorRepository.findById(author1.getId());
+        assertThat(savedAuthor.get().books.size()).isEqualTo(2);
+//        List<Book> allBooks = bookRepository.findAll();
+//        List<Author> allAuthors = authorRepository.findAll();
+//        System.out.println("result: " + allBooks);
+//        System.out.println("authors: " + allAuthors);
+//
+//        assertThat(allBooks).isNotEmpty();
+//        assertThat(allAuthors).isNotEmpty();
     }
 
     @Test

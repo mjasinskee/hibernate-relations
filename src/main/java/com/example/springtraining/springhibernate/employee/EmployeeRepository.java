@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
@@ -16,7 +17,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
 
     long countEmployeeByDepartment(Department department);
-    long countEmployeeByDepartmentAndSalaryLessThan(Department department, BigDecimal salary);
+    long countByDepartmentAndSalaryIsLessThan(Department department, BigDecimal salary);
+    Set<Employee> findAllByDepartmentAndSalaryIsLessThan(Department department, BigDecimal salary);
 
     @Query("select e from Employee e where e.department = :department")
     Optional<Employee> searchByDepartment(@Param("department") Department department);

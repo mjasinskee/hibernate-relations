@@ -1,6 +1,7 @@
 package com.example.springtraining.springhibernate.library;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,7 +18,7 @@ class Author {
     private Long id;
     private String firstName;
     private String lastName;
-    @ManyToMany(mappedBy = "authors")
+    @ManyToMany(mappedBy = "authors", fetch = FetchType.EAGER)
     Set<Book> books = new HashSet<>();
 
     public Author() {
@@ -56,13 +57,17 @@ class Author {
         this.books = books;
     }
 
+    public Set<Book> getBooks() {
+        return books;
+    }
+
     @Override
     public String toString() {
         return "Author{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", authors=" + books.size() +
+                ", books=" + books.size() +
                 '}';
     }
 }

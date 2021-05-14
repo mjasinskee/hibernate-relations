@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -19,7 +21,10 @@ class Book {
     private Long id;
     private String ISBN;
     private String title;
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "book_authors",
+            joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id"))
     Set<Author> authors = new HashSet<>();
 
     public Book() {
