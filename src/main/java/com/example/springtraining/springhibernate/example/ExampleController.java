@@ -13,7 +13,12 @@ class ExampleController {
     }
 
     @GetMapping
-    SampleEntry hello() {
+    SampleEntry get() {
         return repository.get("name").get();
+    }
+
+    @GetMapping("/hello")
+    String hello() {
+        return "Hello";
     }
 }
