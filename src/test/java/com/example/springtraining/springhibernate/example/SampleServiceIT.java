@@ -1,16 +1,22 @@
 package com.example.springtraining.springhibernate.example;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-class SampleServiceTest {
+@SpringBootTest
+class SampleServiceIT {
 
-    SampleRepository repository = new SampleRepository();
-    private SampleService service = new SampleService(repository);
+    @Autowired
+    private SampleService service;
+
+    @Autowired
+    private SampleRepository repository;
 
     @Test
     public void shouldAddEntry() {
