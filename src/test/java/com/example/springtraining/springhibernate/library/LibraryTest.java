@@ -74,4 +74,30 @@ class LibraryTest {
         assertThat(foundBook.isPresent()).isTrue();
     }
 
+    @Test
+    public void shouldRemoveOrphantBooks() {
+        //given
+        Book book1 = new Book("ISBN1", "title1");
+        Book book2 = new Book("ISBN2", "title2");
+        Book book3 = new Book("ISBN3", "title3");
+        Author author1 = new Author("name1", "lastname1");
+        Author author2 = new Author("name2", "lastname2");
+
+        author1.addBook(book1);
+        author1.addBook(book2);
+        author2.addBook(book3);
+
+        authorRepository.saveAndFlush(author1);
+        authorRepository.saveAndFlush(author2);
+
+        //when
+        Author author = authorRepository.findAuthorByFirstNameAndLastName("name1", "lastname1").get();
+        author.removeBook(author.getBooks().get(0));
+        authorRepository.saveAndFlush(author);
+
+        //then
+        List<Book> books = bookRepository.findAll();
+        assertThat(books.size()).isEqualTo(2);
+    }
+
 }
