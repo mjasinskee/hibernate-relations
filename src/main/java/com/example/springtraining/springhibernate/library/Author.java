@@ -1,5 +1,6 @@
 package com.example.springtraining.springhibernate.library;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,7 +16,7 @@ class Author {
     private Long id;
     private String firstName;
     private String lastName;
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private List<Book> books;
 
     public Author() {
