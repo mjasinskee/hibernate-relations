@@ -52,6 +52,7 @@ class Author {
 
     public void setBook(Book book) {
         this.book = book;
+        book.setAuthor(this);
     }
 
     public Book getBook() {

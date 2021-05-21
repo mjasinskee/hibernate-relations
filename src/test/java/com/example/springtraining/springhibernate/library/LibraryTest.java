@@ -45,4 +45,21 @@ class LibraryTest {
         assertThat(author.get().getBook().getTitle()).isEqualToIgnoringCase("title1");
     }
 
+    @Test
+    public void shouldModify() {
+        //given
+        Book book1 = new Book("ISBN1", "title1");
+
+        Author author1 = new Author("name1", "lastName1");
+        author1.setBook(book1);
+
+        //when
+        authorRepository.save(author1);
+
+
+        //then
+        assertThat(authorRepository.findAll().size()).isEqualTo(1);
+        assertThat(bookRepository.findAll().size()).isEqualTo(1);
+    }
+
 }
