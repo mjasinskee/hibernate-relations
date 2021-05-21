@@ -105,4 +105,26 @@ class LibraryTest {
         assertThat(savedBook.get().authors.size()).isEqualTo(1);
         assertThat(authorRepository.findAll().size()).isEqualTo(4);
     }
+
+    @Test
+    public void shouldChangeName() {
+        //given
+        Book book1 = bookRepository.save(new Book("ISBN1", "title1"));
+        Author author1 = authorRepository.save(new Author("name1", "lastName1"));
+        Author author2 = authorRepository.save(new Author("name2", "lastName2"));
+
+        book1.setAuthors(Stream.of(author1, author2).collect(Collectors.toSet()));
+        Book save = bookRepository.save(book1);
+
+        //when
+
+        Book book = bookRepository.findById(save.getId()).get();
+        Author authorByName = book.authors.stream().filter(author -> author.getFirstName().equals("name1")).findFirst().get();
+        authorByName.setFirstName("other name");
+        authorByName.setLastName("other lastname");
+        bookRepository.saveAndFlush(book);
+
+        //then
+        assertThat(authorRepository.findAuthorByFirstNameAndLastName("other name", "other lastname").isPresent()).isTrue();
+    }
 }
