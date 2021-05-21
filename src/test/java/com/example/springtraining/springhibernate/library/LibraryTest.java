@@ -55,14 +55,14 @@ class LibraryTest {
         bookRepository.save(book3);
 
         //when
-        Optional<Book> book = bookRepository.findById(6L);
+        Optional<Book> book = bookRepository.findBookByTitle("title1");
         book.ifPresent(b -> {
             b.getAuthor().setFirstName("anotherName");
             bookRepository.save(b);
         });
 
         //then
-        Optional<Book> saved = bookRepository.findById(6L);
+        Optional<Book> saved = bookRepository.findBookByTitle("title1");
         assertThat(saved.isPresent()).isTrue();
         assertThat(saved.get().getAuthor().getFirstName()).isEqualToIgnoringCase("anothername");
     }
