@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 class Author {
@@ -16,13 +17,13 @@ class Author {
     private Long id;
     private String firstName;
     private String lastName;
-    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    private List<Book> books;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Book> books;
 
     public Author() {
     }
 
-    public Author(String firstName, String lastName, List<Book> books) {
+    public Author(String firstName, String lastName, Set<Book> books) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.books = books;
@@ -50,6 +51,10 @@ class Author {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public Set<Book> getBooks() {
+        return books;
     }
 
     @Override

@@ -6,7 +6,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,8 +28,8 @@ class LibraryTest {
         Book book1 = new Book("ISBN1", "title1");
         Book book2 = new Book("ISBN2", "title2");
         Book book3 = new Book("ISBN3", "title3");
-        Author author1 = new Author("name1", "lastName1", Arrays.asList(book1, book2));
-        Author author2 = new Author("name1", "lastName1", Arrays.asList(book3));
+        Author author1 = new Author("name1", "lastName1", new HashSet<>(Arrays.asList(book1, book2)));
+        Author author2 = new Author("name1", "lastName1", new HashSet<>(Arrays.asList(book3)));
 
         //when
 //        bookRepository.save(book1);
@@ -44,6 +47,24 @@ class LibraryTest {
 
         assertThat(allBooks.size()).isEqualTo(3);
         assertThat(allBooks).containsExactlyInAnyOrder(book1, book2, book3);
+    }
+
+    @Test
+    public void shouldChangeTitleOfBook() {
+        //given
+        Book book1 = new Book("ISBN1", "title1");
+        Book book2 = new Book("ISBN2", "title2");
+        Author author1 = new Author("name1", "lastName1", new HashSet<>(Arrays.asList(book1, book2)));
+        Author author = authorRepository.saveAndFlush(author1);
+
+        //when
+        Author byId = authorRepository.findById(author.getId()).get();
+        Book book = byId.getBooks().stream().filter(b -> b.getTitle().equals("title1")).findFirst().get();
+        book.setTitle("new title");
+        authorRepository.save(byId);
+
+        //then
+        assertThat(bookRepository.findBookByTitle("new title").isPresent()).isTrue();
     }
 
 }
