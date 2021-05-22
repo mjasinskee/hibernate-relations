@@ -66,6 +66,11 @@ class Author {
         book.addAuthor(this);
     }
 
+    public void removeBook(Book book) {
+        books.remove(book);
+        book.authors.remove(this);
+    }
+
     @Override
     public String toString() {
         return "Author{" +

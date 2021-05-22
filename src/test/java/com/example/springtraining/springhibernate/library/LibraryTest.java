@@ -127,4 +127,46 @@ class LibraryTest {
         //then
         assertThat(authorRepository.findAuthorByFirstNameAndLastName("other name", "other lastname").isPresent()).isTrue();
     }
+
+    @Test
+    public void shouldNotRemoveAuthorWithoutBooks() {
+        //given
+        Book book = new Book("isbn1", "title1");
+        book.addAuthor(new Author("firstName1", "lastName1"));
+        book.addAuthor(new Author("firstName2", "lastName2"));
+        Book save = bookRepository.save(book);
+
+        //when
+        Book book1 = bookRepository.findById(save.getId()).get();
+        Author firstName1 = book1.authors.stream().filter(author -> author.getFirstName().equals("firstName1")).findFirst().get();
+        book1.removeAuthor(firstName1);
+        bookRepository.saveAndFlush(book1);
+
+        //then
+        assertThat(authorRepository.findAll().size()).isEqualTo(2);
+        assertThat(bookRepository.findAll().size()).isEqualTo(1);
+        assertThat(bookRepository.findById(save.getId()).get().authors.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void shouldRemoveAuthor() {
+        //given
+        Book book = new Book("isbn1", "title1");
+        book.addAuthor(new Author("firstName1", "lastName1"));
+        book.addAuthor(new Author("firstName2", "lastName2"));
+        Book save = bookRepository.save(book);
+
+        //when
+        Book book1 = bookRepository.findById(save.getId()).get();
+        Author firstName1 = book1.authors.stream().filter(author -> author.getFirstName().equals("firstName1")).findFirst().get();
+        book1.removeAuthor(firstName1);
+        bookRepository.saveAndFlush(book1);
+        authorRepository.delete(firstName1);
+
+        //then
+        System.out.println("all authors: " + authorRepository.findAll());
+        System.out.println("all books: " + bookRepository.findAll());
+        assertThat(authorRepository.findAll().size()).isEqualTo(1);
+        assertThat(bookRepository.findAll().size()).isEqualTo(1);
+    }
 }
