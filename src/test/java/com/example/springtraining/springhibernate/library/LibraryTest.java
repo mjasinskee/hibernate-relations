@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -65,6 +66,24 @@ class LibraryTest {
 
         //then
         assertThat(bookRepository.findBookByTitle("new title").isPresent()).isTrue();
+    }
+
+    @Test
+    public void shouldNotRemoveFromDB() {
+        //given
+        Book book1 = new Book("ISBN1", "title1");
+        Book book2 = new Book("ISBN2", "title2");
+        Author author1 = new Author("name1", "lastName1", new HashSet<>(Arrays.asList(book1, book2)));
+        Author author = authorRepository.saveAndFlush(author1);
+
+        //when
+        author.removeBook(book2);
+
+        Author save = authorRepository.save(author);
+
+        //then
+        assertThat(save.getBooks().size()).isEqualTo(1);
+        assertThat(bookRepository.findById(book2.getId()).isPresent()).isFalse();
     }
 
 }

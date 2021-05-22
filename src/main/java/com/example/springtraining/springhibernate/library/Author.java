@@ -57,6 +57,10 @@ class Author {
         return books;
     }
 
+    public void removeBook(Book book) {
+        books.remove(book);
+    }
+
     @Override
     public String toString() {
         return "Author{" +
