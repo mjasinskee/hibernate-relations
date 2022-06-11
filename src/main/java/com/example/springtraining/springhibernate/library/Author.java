@@ -15,7 +15,7 @@ class Author {
     private Long id;
     private String firstName;
     private String lastName;
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER, orphanRemoval = true)
     private Book book;
 
     public Author() {
@@ -67,5 +67,10 @@ class Author {
                 ", lastName='" + lastName + '\'' +
                 ", book=" + book.getId() +
                 '}';
+    }
+
+    public void removeBook() {
+        book.setAuthor(null);
+        this.book= null;
     }
 }
