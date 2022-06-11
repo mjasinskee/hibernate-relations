@@ -74,7 +74,7 @@ class LibraryTest {
         Book book1 = new Book("ISBN1", "title1");
         Book book2 = new Book("ISBN2", "title2");
         Author author1 = new Author("name1", "lastName1", new HashSet<>(Arrays.asList(book1, book2)));
-        Author author = authorRepository.saveAndFlush(author1);
+        Author author = authorRepository.save(author1);
 
         //when
         author.removeBook(book2);
@@ -83,7 +83,8 @@ class LibraryTest {
 
         //then
         assertThat(save.getBooks().size()).isEqualTo(1);
-        assertThat(bookRepository.findById(book2.getId()).isPresent()).isFalse();
+        Optional<Book> byId = bookRepository.findById(book2.getId());
+        assertThat(byId.isPresent()).isTrue();
     }
 
 }

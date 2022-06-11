@@ -17,7 +17,8 @@ class Author {
     private Long id;
     private String firstName;
     private String lastName;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    @OneToMany
     private Set<Book> books;
 
     public Author() {
