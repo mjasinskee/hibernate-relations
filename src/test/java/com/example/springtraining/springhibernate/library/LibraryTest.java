@@ -26,40 +26,12 @@ class LibraryTest {
         Author author1 = new Author("name1", "lastName1");
         author1.setBook(book1);
 
-//        Book savedBook1 = bookRepository.save(book1);
-        Author savedAuthor1 = authorRepository.save(author1);
-
         //when
-        Optional<Author> byId = authorRepository.findById(savedAuthor1.getId());
-        Optional<Book> byId1 = bookRepository.findBookByTitle("title1");
-        if (byId.isPresent() && byId1.isPresent()) {
-            Author author = byId.get();
-            Book book = byId1.get();
-            book.setAuthor(author);
-            author.setBook(book1);
-            authorRepository.save(author);
-        }
+        Author savedAuthor1 = authorRepository.save(author1);
 
         //then
         Optional<Author> author = authorRepository.findAuthorByFirstNameAndLastName("name1", "lastName1");
         assertThat(author.get().getBook().getTitle()).isEqualToIgnoringCase("title1");
-    }
-
-    @Test
-    public void shouldModify() {
-        //given
-        Book book1 = new Book("ISBN1", "title1");
-
-        Author author1 = new Author("name1", "lastName1");
-        author1.setBook(book1);
-
-        //when
-        authorRepository.save(author1);
-
-
-        //then
-        assertThat(authorRepository.findAll().size()).isEqualTo(1);
-        assertThat(bookRepository.findAll().size()).isEqualTo(1);
     }
 
 }
