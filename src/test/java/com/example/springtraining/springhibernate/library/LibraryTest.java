@@ -31,8 +31,8 @@ class LibraryTest {
         author2.addBook(book3);
 
         //when
-        authorRepository.saveAndFlush(author1);
-        authorRepository.saveAndFlush(author2);
+        authorRepository.save(author1);
+        authorRepository.save(author2);
 
         //then
         List<Author> authors = authorRepository.findAll();
