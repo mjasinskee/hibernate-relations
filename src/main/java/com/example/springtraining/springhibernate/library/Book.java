@@ -22,7 +22,6 @@ class Book {
     private String ISBN;
     private String title;
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-//    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
 //    @JoinTable(name = "book_authors",
 //            joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
 //            inverseJoinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id"))

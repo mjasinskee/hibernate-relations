@@ -36,19 +36,6 @@ class LibraryTest {
         Author author4 = authorRepository.save(new Author("name4", "lastName4"));
 
         //when
-        //setting in test
-//        book1.addAuthor(author1);
-//        author1.addBook(book1);
-//        book1.addAuthor(author2);
-//        author2.addBook(book1);
-//        book2.addAuthor(author3);
-//        author3.addBook(book2);
-//        book2.addAuthor(author4);
-//        author4.addBook(book2);
-
-//        book1.setAuthors(Stream.of(author1, author2).collect(Collectors.toSet()));
-//        book2.setAuthors(Stream.of(author3, author4).collect(Collectors.toSet()));
-
         book1.authors.add(author1);
         author1.addBook(book1);
         book1.authors.add(author2);
@@ -135,12 +122,13 @@ class LibraryTest {
         book.addAuthor(new Author("firstName1", "lastName1"));
         book.addAuthor(new Author("firstName2", "lastName2"));
         Book save = bookRepository.save(book);
+        List<Author> all = authorRepository.findAll();
 
         //when
         Book book1 = bookRepository.findById(save.getId()).get();
         Author firstName1 = book1.authors.stream().filter(author -> author.getFirstName().equals("firstName1")).findFirst().get();
         book1.removeAuthor(firstName1);
-        bookRepository.saveAndFlush(book1);
+        bookRepository.save(book1);
 
         //then
         assertThat(authorRepository.findAll().size()).isEqualTo(2);
